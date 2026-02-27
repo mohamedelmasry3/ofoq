@@ -1,18 +1,16 @@
 <?php
-$host = "localhost";
-$port = "5432";
-$dbname = "ofoq"; // تم تعديله بناءً على تعليقك
-$user = "postgres";
-$password = "0207"; // تم تعديله بناءً على تعليقك
+// استخدم البيانات من Render
+$host     = "your-db-hostname.render.com"; // المضيف
+$dbname   = "ofoq_db";                     // اسم القاعدة
+$user     = "your_username";               // اسم المستخدم
+$password = "your_password";               // كلمة المرور
 
 try {
-    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;";
+    // ملاحظة: Render يتطلب sslmode=require للاتصال الخارجي والداخلي
+    $dsn = "pgsql:host=$host;port=5432;dbname=$dbname;sslmode=require";
     $pdo = new PDO($dsn, $user, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     ]);
 } catch (PDOException $e) {
-    // في حال فشل الاتصال، سيظهر لك السبب الدقيق
-    die("خطأ في الاتصال بالقاعدة: " . $e->getMessage());
+    die("خطأ في الاتصال بالسيرفر: " . $e->getMessage());
 }
-?>
